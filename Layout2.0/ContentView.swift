@@ -8,17 +8,44 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var page: String = "house"
+    var pages: [String] = [
+        "house",
+        "plus",
+        "person"
+    ]
+    init() {
+        UITabBar.appearance().isHidden = true
+    }
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        ZStack(alignment: .bottom) {
+            TabView(selection: $page) {
+                HomeView()
+                    .tag("house")
+                Text("Second")
+                    .tag("plus")
+                Text("profile")
+                    .tag("person")
+            }
+            
+            HStack{
+                ForEach(pages, id: \.self) { page in
+                    TabBarItemView(page: $page, image: page)
+                }
+                .frame(maxWidth: .infinity)
+               
+            }
+            .padding()
+            .background(.appGray)
+            .clipShape(Capsule())
+            .padding()
         }
-        .padding()
     }
 }
 
 #Preview {
     ContentView()
 }
+
+
